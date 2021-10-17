@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 namespace App\Http\Controllers;
 
@@ -34,10 +34,10 @@ class AuthController extends Controller
 
         $credentials = $request->validate([
             'email' => 'required|string|email',
-            'password' => 'required|string',
+            'password' => 'required',
         ]);
         if (!Auth::attempt($credentials)) {
-            return response()->json(['error'], 401);
+            return response()->json(['Wrong Login Details'], 401);
         }
         return response()->json([
             'token' => Auth::user()->createToken('labdxLoginToken')->plainTextToken,
