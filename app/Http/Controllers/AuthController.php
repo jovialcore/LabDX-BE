@@ -1,7 +1,5 @@
-    <?php
-
+<?php
 namespace App\Http\Controllers;
-
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +35,7 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
         if (!Auth::attempt($credentials)) {
-            return response()->json(['Wrong Login Details'], 401);
+            return response()->json(['Invalid login credentials'], 401);
         }
         return response()->json([
             'token' => Auth::user()->createToken('labdxLoginToken')->plainTextToken,
