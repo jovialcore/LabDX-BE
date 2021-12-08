@@ -8,6 +8,7 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
+      
     //the array key names represents your html attribute names
         $nameAttr = $request->validate([
             'name' => 'required|string',
@@ -28,7 +29,7 @@ class AuthController extends Controller
 
         return response()->json([
             'token' => $user->createToken('labdxRegToken')->plainTextToken,
-            'user' => Auth::user()
+            'user' => $user 
         ]);
     }
 
