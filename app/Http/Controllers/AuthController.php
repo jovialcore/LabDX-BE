@@ -8,21 +8,27 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
+    //the array key names represents your html attribute names
         $nameAttr = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:6'
+            'dob' => 'required',
+            'gender' => 'required',
+            'pass' => 'required|min:8'
         ]);
 
-
+ //the array key names represents your model/table_column names
         $user = User::create([
             'name' => $nameAttr['name'],
             'email' => $nameAttr['email'],
-            'password' => bcrypt($nameAttr['password'])
+            'dateofbirth' => $request->dob,
+            'gender'=>  $nameAttr['gender'],
+            'password' => bcrypt($request->pass)
         ]);
 
         return response()->json([
-            'token' => $user->createToken('labdxRegToken')->plainTextToken
+            'token' => $user->createToken('labdxRegToken')->plainTextToken,
+            'user' => Auth::user()
         ]);
     }
 
@@ -42,4 +48,6 @@ class AuthController extends Controller
             'user' => Auth::user()
         ], 201);
     }
+
+ 
 }
