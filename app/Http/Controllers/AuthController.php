@@ -1,16 +1,18 @@
 <?php
+
 namespace App\Http\Controllers;
+
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
-      
-    //the array key names represents your html attribute names
-        $nameAttr = $request->validate([
+
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'email' => 'required|email|unique:users',
             'dob' => 'required',
@@ -18,18 +20,21 @@ class AuthController extends Controller
             'pass' => 'required|min:8'
         ]);
 
- //the array key names represents your model/table_column names
+        if ($validator->fails()) {    
+            return response()->json($validator->messages(), 400);
+        }
+
         $user = User::create([
-            'name' => $nameAttr['name'],
-            'email' => $nameAttr['email'],
+            'name' => $request->name,
+            'email' =>  $request->email,
             'dateofbirth' => $request->dob,
-            'gender'=>  $nameAttr['gender'],
+            'gender' =>   $request->gender,
             'password' => bcrypt($request->pass)
         ]);
 
         return response()->json([
             'token' => $user->createToken('labdxRegToken')->plainTextToken,
-            'user' => $user 
+            'user' => $user
         ]);
     }
 
@@ -49,6 +54,4 @@ class AuthController extends Controller
             'user' => Auth::user()
         ], 201);
     }
-
- 
 }
