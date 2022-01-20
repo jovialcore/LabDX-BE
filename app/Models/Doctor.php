@@ -22,7 +22,11 @@ class Doctor extends Model
         'lga',
         'state',
         'Country',
-      
-
     ];
+
+    public function user()
+    {
+
+        return $this->belongsTo(User::class);
+    }
 }

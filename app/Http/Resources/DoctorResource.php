@@ -38,6 +38,7 @@ class DoctorResource extends JsonResource
             'lga' => $this->lga,
             'state' => $this->state,
             'country' => $this->country,
+            'name' => $this->user->name
         ];
     }
 }
