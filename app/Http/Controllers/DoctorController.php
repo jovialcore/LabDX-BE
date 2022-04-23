@@ -17,7 +17,7 @@ class DoctorController extends Controller
     public function index()
     {
 
-        return  DoctorResource::collection(Doctor::all()); // use the collection() method to return a collection of resources that us multiple models and not individual models
+        return  DoctorResource::collection(Doctor::all()); 
     }
 
     /**
